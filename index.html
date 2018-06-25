@@ -15,7 +15,7 @@
 </head>
 <body>
 <!-- behövs en add-knapp -->
-<button onclick="addFunction()" type="button" class="btn btn-info">Add</button>
+<button onclick="addFunction()" class="btn btn-info">Add</button>
 
 <table class="table" id="myTable">
 
@@ -24,24 +24,33 @@
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 
 <script>
+    var rowCount = 1;
+    var table = document.querySelector('#myTable');
     function addFunction() {
-        var table = document.getElementById("myTable");
         var row = table.insertRow(-1);
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
-        var rowCount = $('table#myTable tr:last').index() + 1;
-        cell1.innerHTML = rowCount;
-        cell2.innerHTML = '<button onclick="removeFunction()" type="button" class="btn btn-danger">Remove</button>';
+        cell1.innerHTML = rowCount++;
+        cell2.innerHTML = '<button onclick="removeFunction(this.parentNode.parentNode.rowIndex)" type="button" class="btn btn-danger">Remove</button>';
     }
-    function removeFunction() {
-        document.getElementById("myTable").deleteRow(0);
+    function removeFunction(i) {
+        table.deleteRow(i);
     }
 </script>
+<!--
+Jag har i tidigare programmmeringsspråk föredragit att använda mig av en delegerad eventhanterare när jag kodar.
+Det sparar prestanda, tar snabbare tid och mer effiktivare JFör mig blir det lättare att felsöka när allt är strukuterar i ett och på samma ställe
+I dettta fallet valde jag att använda mig av individuell eventhantering. När jag kodade kändes det rimligt att låt koden skapa en nyknapp på varje rad och då eventhantera samtidigt.
+När man börjar koda tycker jag att det är enklare att använda en indiduell hantering innan men har lyckats greppa kodstrukturen. Under sommaren ska jag lära mig att bli bekväm med
+olika sorters eventhanterare och inte bara individuella, i JS. Det är viktigt att lära sig använda de metoder som drar mindre minne, så som delegerad eventhantering, då stora
+applikationer kan bli väldigt tungkörda om man använder metoder som drar mer minne.
+Man kan absolut använda båda sorterna när man kodar, men jag anser itne att det är god standard att göra det eftersom koden då blir svårare att läsa.
+-->
 
-<!-- I valet mellan (a) individuella eventhanterare på varje knapp och
-     (b) en enda delegerad eventhanterare på hela tabellen -- vilket
-     alternativ föredrar du, och varför? Kan man göra det på båda sätten?
-     Finns det några fördelar med alternativet du inte valde? Diskutera. -->
+
+
+
+
 
 </body>
 </html>
